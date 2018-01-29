@@ -11,4 +11,9 @@ class UserController extends Controller
 	{
 		return  $user;
 	}
+
+	public function postUserById( Request $request)
+	{
+		return  ['user_id' => $request->get('id')];
+	}
 }

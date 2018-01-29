@@ -27,4 +27,6 @@ Route::group(['middleware' => 'web'], function () {
 Route::get('/user/{user}', 'UserController@getUserById');
 
 
+Route::post('/user', 'UserController@postUserById');
+
 Route::get('/send', 'ChatController@setMessages');

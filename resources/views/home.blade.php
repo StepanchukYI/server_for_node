@@ -43,7 +43,6 @@
             var $messageArea = $('#messageArea');
             var $user = $('#name');
             var $users = $('#users');
-            var $token = $('#_token');
 
             socket.emit('new user', {{ Auth::user()->id }} , function (data) {
                 if (data) {
