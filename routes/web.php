@@ -27,6 +27,19 @@ Route::group(['middleware' => 'web'], function () {
 Route::get('/user/{user}', 'UserController@getUserById');
 
 
-Route::post('/user', 'UserController@postUserById');
 
+<<<<<<< HEAD
 Route::post('/send', 'ChatController@setMessages');
+=======
+Route::get('/send', 'ChatController@setMessages');
+
+
+Route::get('/test', function (){
+	$test = \App\Models\TestModel::all();
+	$test->each(function ($item){
+		$item->text = $item->text . 'Laravel - 1';
+		$item->update();
+	});
+	echo "done";
+});
+>>>>>>> commit put REQUEsT

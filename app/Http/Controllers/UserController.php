@@ -20,6 +20,10 @@ class UserController extends Controller
 	 */
 	public function postUserById( Request $request)
 	{
+<<<<<<< HEAD
 		return  User::find($request->get('id'));
+=======
+		return  ['user_id' => $request];
+>>>>>>> commit put REQUEsT
 	}
 }
