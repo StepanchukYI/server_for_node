@@ -12,8 +12,14 @@ class UserController extends Controller
 		return  $user;
 	}
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return User
+	 *
+	 */
 	public function postUserById( Request $request)
 	{
-		return  ['user_id' => $request->get('id')];
+		return  User::find($request->get('id'));
 	}
 }

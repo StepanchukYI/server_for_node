@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
+	/**
+	 * @param Request $request
+	 *
+	 * @return mixed
+	 */
 	public function setMessages( Request $request )
 	{
-		return [ 'id' => $request->get( 'msg' ) ];
-
-		return ChatMessage::createMessages( $request->msg );
+		return ChatMessage::createMessages( $request->get('msg' ));
 	}
 }

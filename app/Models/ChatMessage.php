@@ -17,11 +17,10 @@ class ChatMessage extends Model
 		foreach ( $request as $item )
 		{
 			$chatMSG = new ChatMessage();
-
-			$chatMSG->from_user_id = $item->user;
-			$chatMSG->message = $item->text;
-			$chatMSG->date = $item->time->date;
-			$chatMSG->time = $item->time->time;
+			$chatMSG->from_user_id = $item['user'];
+			$chatMSG->message = $item['text'];
+			$chatMSG->date = $item['time']['date'];
+			$chatMSG->time = $item['time']['time'];
 
 			$chatMSG->save();
 		}
