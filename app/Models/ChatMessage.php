@@ -29,4 +29,9 @@ class ChatMessage extends Model
 
 		return $chatMSG->id;
 	}
+
+
+	public static function messages($messageId){
+		return self::where('id', '>', $messageId)->get();
+	}
 }

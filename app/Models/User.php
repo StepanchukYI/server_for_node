@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Mail\Message;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -27,8 +28,8 @@ class User extends Authenticatable
 		'password', 'remember_token',
 	];
 
-	public function updateUser($user_id, $last_message){
-		$user = User::find($user_id);
+	public static function updateUser($user_id, $last_message){
+		$user = self::find($user_id);
 		$user->update([
 			'last_message' => $last_message
 		]);
