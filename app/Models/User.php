@@ -26,4 +26,13 @@ class User extends Authenticatable
 	protected $hidden = [
 		'password', 'remember_token',
 	];
+
+	public function updateUser($user_id, $last_message){
+		$user = User::find($user_id);
+		$user->update([
+			'last_message' => $last_message
+		]);
+
+		return true;
+	}
 }
