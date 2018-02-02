@@ -12,7 +12,7 @@ class ApiUserController extends Controller
 {
 	public function getUserById( User $user )
 	{
-		return  $user;
+		return $user;
 	}
 
 	/**
@@ -21,21 +21,24 @@ class ApiUserController extends Controller
 	 * @return array
 	 *
 	 */
-	public function postLogin( Request $request)
+	public function postLogin( Request $request )
 	{
-		$user = User::find($request->get('id'));
-		$messages = ChatMessage::messages($user->last_message_id);
+		$user     = User::find( $request->get( 'id' ) );
+		$messages = ChatMessage::messages( $user->last_message_id );
 
-		return  ['user' => $user, 'message' => $messages];
+		return [ 'user' => $user, 'message' => $messages ];
 	}
+
 
 	/**
 	 * @param Request $request
 	 *
 	 * @return boolean
 	 */
-	public function postLogout( Request $request)
+	public function postLogout( Request $request )
 	{
-		return  User::Where('id', $request->get('user_id'))->update(['last_user_id' => $request->get('last_message')]);
+		return User::Where( 'id', $request->get( 'user_id' ) )->update( [ 'last_user_id' => $request->get( 'last_message' ) ] );
 	}
+
+
 }
