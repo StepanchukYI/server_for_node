@@ -48,7 +48,8 @@
                 if (data) {
                     console.log($user);
                     for (i = 0; i < data.msg.length; i++) {
-                        $chat.append('<div class="well"><strong>' + data.msg[i].user + ': </strong>' + data.msg[i].text + '</div>');
+                        console.log(data.msg[i].user_sender);
+                        $chat.append('<div class="well"><strong>' + data.msg[i].user_sender.name + ': </strong>' + data.msg[i].message + '</div>');
                     }
                 }
             });

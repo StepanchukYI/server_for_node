@@ -31,7 +31,7 @@ class User extends Authenticatable
 	public static function updateUser($user_id, $last_message){
 		$user = self::find($user_id);
 		$user->update([
-			'last_message' => $last_message
+			'last_message_id' => $last_message
 		]);
 
 		return true;

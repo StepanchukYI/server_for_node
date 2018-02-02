@@ -4,6 +4,7 @@ namespace App\Models;
 
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class ChatMessage extends Model
@@ -32,6 +33,22 @@ class ChatMessage extends Model
 
 
 	public static function messages($messageId){
-		return self::where('id', '>', $messageId)->get();
+		/** @var LengthAwarePaginator $items */
+		$items = self::where('id', '>', $messageId)->with('userSender')->paginate(15);
+		$items->setPageName('page_');
+		return $items;
+	}
+
+
+	public function userSender(){
+		return $this->belongsTo(User::class, 'from_user_id');
+	}
+
+	public function userReceiver(){
+		return $this->belongsTo(User::class, 'to_user_id');
+	}
+
+	public function attachments(){
+		return $this->belongsTo(Attachment::class, 'attachment_id');
 	}
 }
