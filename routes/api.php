@@ -30,8 +30,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::get('password/reset/{token}', 'API\Auth\ResetPasswordController@showResetForm')->name('password.reset');
 //Route::post('password/reset', 'API\Auth\ResetPasswordController@reset');
 
+
+
+
+
 //Send Message From User
 Route::post('/send', 'API\ChatController@setMessages');
 
+
+
 Route::post('/user/login', 'API\ApiUserController@postLogin');
+
 Route::post('/user/logout', 'API\ApiUserController@postLogout');

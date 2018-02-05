@@ -36,7 +36,7 @@
     </style>
     <script>
         $(function () {
-            var socket = io.connect('http://127.0.0.1:3000/');
+            var socket = io.connect('http://192.168.0.103:3000/');
             var $messageForm = $('#messageForm');
             var $message = $('#message');
             var $chat = $('#chat');
@@ -46,9 +46,11 @@
 
             socket.emit('new user', {{ Auth::user()->id }} , function (data) {
                 if (data) {
-                    console.log($user);
                     for (i = 0; i < data.msg.length; i++) {
-                        console.log(data.msg[i].user_sender);
+                        if(data.msg[i].id == data.last_message){
+                            $chat.append('<hr id="last_message_hr">');
+                            $chat.animate({scrollTo: $("#last_message_hr").offset().top}, 500);
+                        }
                         $chat.append('<div class="well"><strong>' + data.msg[i].user_sender.name + ': </strong>' + data.msg[i].message + '</div>');
                     }
                 }
@@ -82,7 +84,6 @@
             socket.on('get user', function (data) {
                 var html = '';
                 for (i = 0; i < data.length; i++) {
-                    console.log(data[i]);
                     html += '<li class="list-group-item">' + data[i] + '</li>';
                 }
                 $users.html(html);

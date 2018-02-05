@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\DB;
  * Class ChatMessage
  * @package App\Models
  *
- * @property User       $user
+ * @property $id
+ * @property $created_at
+ * @property $updated_at
+ * @property User $user
  * @property Attachment $attachments
  */
 class ChatMessage extends Model
@@ -24,8 +27,7 @@ class ChatMessage extends Model
 	public static function createMessages( $request )
 	{
 		DB::beginTransaction();
-		foreach ( $request as $item )
-		{
+		foreach ( $request as $item ) {
 			$chatMSG          = new ChatMessage();
 			$chatMSG->user_id = $item['user'];
 			$chatMSG->message = $item['text'];
@@ -47,11 +49,11 @@ class ChatMessage extends Model
 	 *
 	 * @return mixed
 	 */
-	public static function createRoomMessage( $chat_room_id, $user_id, $message )
+	public static function createRoomMessage( $chat_room_id , $user_id , $message )
 	{
 		return self::create( [
-			'room_id' => $chat_room_id,
-			'user_id' => $user_id,
+			'room_id' => $chat_room_id ,
+			'user_id' => $user_id ,
 			'message' => $message
 		] );
 	}
@@ -65,9 +67,19 @@ class ChatMessage extends Model
 	public static function messages( $messageId )
 	{
 		/** @var LengthAwarePaginator $items */
-		$items = self::where( 'id', '>', $messageId )->with( 'userSender' )->paginate( 15 );
-		$items->setPageName( 'page_' );
+		$items = self::where( 'id' , '>' , (int)$messageId - 10 )->with( 'userSender' )->limit(25)->get();
+		return $items;
+	}
 
+	/**
+	 * @param $messageId
+	 *
+	 * @return LengthAwarePaginator
+	 */
+	public static function nextMessages( $messageId )
+	{
+		/** @var LengthAwarePaginator $items */
+		$items = self::where( 'id' , '>' , $messageId )->with( 'userSender' )->limit(15)->get();
 		return $items;
 	}
 
@@ -76,7 +88,7 @@ class ChatMessage extends Model
 	 */
 	public function userSender()
 	{
-		return $this->belongsTo( User::class, 'user_id' );
+		return $this->belongsTo( User::class , 'user_id' );
 	}
 
 	/**
@@ -84,6 +96,6 @@ class ChatMessage extends Model
 	 */
 	public function attachments()
 	{
-		return $this->belongsTo( Attachment::class, 'attachment_id' );
+		return $this->belongsTo( Attachment::class , 'attachment_id' );
 	}
 }
