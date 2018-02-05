@@ -24,9 +24,9 @@ class ApiUserController extends Controller
 	public function postLogin( Request $request )
 	{
 		$user     = User::find( $request->get( 'id' ) );
-		$messages = ChatMessage::messages( $user->last_message_id );
-
-		return [ 'user' => $user, 'message' => $messages ];
+		$messages = ChatMessage::messages( $user->last_message );
+		$last_id = $messages->last()->id;
+		return [ 'user' => $user , 'message' => $messages, 'last_id' => $last_id ];
 	}
 
 
@@ -37,7 +37,16 @@ class ApiUserController extends Controller
 	 */
 	public function postLogout( Request $request )
 	{
-		return User::Where( 'id', $request->get( 'user_id' ) )->update( [ 'last_user_id' => $request->get( 'last_message' ) ] );
+		$user = User::where( 'id' , $request->get( 'user_id' ) )->first();
+
+		$user->update( [
+			'last_message' => $request->get( 'last_message' )
+		] );
+
+		return [ 'user'         => $user ,
+		         'user_id'      => $request->get( 'user_id' ) ,
+		         'last_message' => $request->get( 'last_message' )
+		];
 	}
 
 

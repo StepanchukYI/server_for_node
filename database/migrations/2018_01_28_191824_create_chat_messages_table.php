@@ -15,11 +15,11 @@ class CreateChatMessagesTable extends Migration
     {
         Schema::create('chat_messages', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('chat_room_id');
+            $table->integer('chat_room_id')->nullable()->default(null);
             $table->integer('user_id');
             $table->text('message');
             $table->dateTime('send_at');
-            $table->integer('attachment_id');
+            $table->integer('attachment_id')->nullable()->default(null);
             $table->boolean('review')->nullable()->default(null);
             $table->timestamps();
         });
