@@ -34,7 +34,7 @@ class ChatController extends Controller
 
 		if ( ! $chat_room_id = $request->get( 'chat_room_id' ) )
 		{
-			if ( ! $chat_room_id = ChatRoom::where( 'user_ids', $user_ids->toJson() )->first() )
+			if ( ! $chat_room_id = ChatRoom::where( 'user_ids', $user_ids )->first() )
 			{
 				$chat_room_id = ChatRoom::createRoom( $user_ids );
 			}
