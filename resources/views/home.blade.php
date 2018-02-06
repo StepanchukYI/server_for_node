@@ -23,6 +23,8 @@
                             <textarea class="form-control" rows="3" id="message"></textarea>
                         </div>
                         <div class="col-md-2">
+                            <input type="file" id="file">
+                            <input type="button" id="btnFileSubmit">
                             <input type="submit" class="btn btm-primary btn-lg" style="width: 100%;height: 80px"
                                    value="Send">
                         </div>
@@ -31,18 +33,17 @@
             </div>
         </div>
     </div>
-    <style>
-
-    </style>
     <script>
         $(function () {
-            var socket = io.connect('http://192.168.0.103:3000/');
+            var socket = io.connect('http://127.0.0.1:3000/');
             var $messageForm = $('#messageForm');
             var $message = $('#message');
             var $chat = $('#chat');
             var $messageArea = $('#messageArea');
-            var $user = $('#name');
             var $users = $('#users');
+            var $file = $('#file');
+            var delivery = new Delivery(socket);
+
 
             socket.emit('new user', {{ Auth::user()->id }} , function (data) {
                 if (data) {
@@ -60,6 +61,19 @@
                 e.preventDefault();
                 socket.emit('send message', $message.val());
                 $message.val('');
+            });
+
+            delivery.on('delivery.connect',function(delivery){
+                $("#btnFileSubmit").click(function(evt){
+                    var file = $file[0].files[0];
+                    var extraParams = {foo: 'bar'};
+                    delivery.send(file, extraParams);
+                    evt.preventDefault();
+                });
+            });
+
+            delivery.on('send.success',function(fileUID){
+                console.log("file was successfully sent.");
             });
 
             socket.on('new message', function (data) {

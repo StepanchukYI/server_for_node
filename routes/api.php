@@ -13,9 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware( 'auth:api' )->get( '/user', function ( Request $request )
+{
+	return $request->user();
+} );
 
 //// Authentication Routes...
 //Route::post('login', 'API\Auth\LoginController@login');
@@ -31,14 +32,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::post('password/reset', 'API\Auth\ResetPasswordController@reset');
 
 
-
-
-
 //Send Message From User
-Route::post('/send', 'API\ChatController@setMessages');
+Route::prefix( 'chat' )->group( function ()
+{
+	Route::post( '/send', 'API\ChatController@setMessages' );
+	Route::post( '/review/message', 'API\ChatController@reviewChatMessage' );
+	Route::post( '/get/message', 'API\ChatController@getNextMessages' );
 
+} );
 
+Route::prefix( 'user' )->group( function ()
+{
+	Route::post( '/login', 'API\ApiUserController@postLogin' );
+	Route::post( '/logout', 'API\ApiUserController@postLogout' );
 
-Route::post('/user/login', 'API\ApiUserController@postLogin');
-
-Route::post('/user/logout', 'API\ApiUserController@postLogout');
+} );
